@@ -5,7 +5,7 @@ h1 {
 }
 
 body {
-  background: grey
+  background: #fff
 }
 #todo-list {
   width: 500px;
@@ -13,6 +13,7 @@ body {
 }
 form, .todo {
   border: 1px solid rgb(15, 26, 61);
+  border-radius: 10px;
   padding: 10px 20px;
   margin-bottom: 10px;
 }
@@ -33,7 +34,7 @@ form input {
 
 button {
   font-size: 16px;
-  background-color: rgb(62, 138, 151);
+  background-color: #2be45d;
   color: #fff;
   border-radius: 8px;
   border: none;
@@ -41,10 +42,10 @@ button {
   cursor: pointer;
 }
 button:hover {
-  background-color: rgb(173, 47, 28);
+  background-color: #e35535;
 }
 button:active {
-  background-color: rgb(130,35,21);
+  background-color: #e35535;
 }
 button:focus {
   outline: 0;
@@ -68,6 +69,10 @@ input[type='text'] { font-size: 20px; font-family: monospace; }
 .todo-completed {
   display: flex;
   margin: 10px 0;
+}
+
+.todo-crossed {
+  text-decoration: line-through;
 }
 .todo-actions {
   display: flex;
