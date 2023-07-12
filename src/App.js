@@ -62,7 +62,7 @@ const App = () => {
 		setEditingText(e.target.value);
 	};
 
-	// save new todos into localstorage
+	// Load todos from local storage
 	useEffect(() => {
 		const json = localStorage.getItem('todos');
 		const loadedTodos = JSON.parse(json);
@@ -71,6 +71,8 @@ const App = () => {
 		}
 	}, []);
 
+
+	// Save todos to local storage
 	useEffect(() => {
 		if (todos.length > 0) {
 			const json = JSON.stringify(todos);
