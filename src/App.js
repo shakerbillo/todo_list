@@ -78,6 +78,14 @@ const App = () => {
 		}
 	}, [todos]);
 
+
+	let remaining = 0;
+    for (let i = 0; i < todos.length; i++) {
+        if (todos[i].completed === false) {
+            remaining = remaining + 1;
+        }
+    }
+
 	return (
 		<div id="todo-list">
 			<h1>Todo List</h1>
@@ -111,7 +119,11 @@ const App = () => {
 						) : (
 							<button onClick={() => setTodoEditing(todo.id)}>Edit</button>
 						)}
+							<div className="todo-counter">
+                    {remaining} remaining out of {todos.length} tasks
+                </div>
 						<button onClick={() => deleteTodo(todo.id)}>Delete</button>
+					
 					</div>
 				</div>
 			))}
