@@ -6,10 +6,16 @@ const App = () => {
 	const [todo, setTodo] = useState('');
 	const [editingText, setEditingText] = useState('');
 	const [todoEditing, setTodoEditing] = useState(null);
+	const [search, setSearch] = useState('');
 
 	// handle change
 	const handleTodoChange = (e) => {
 		setTodo(e.target.value);
+	};
+
+	// handle Search
+	const handleSearchChange = (e) => {
+		setSearch(e.target.value);
 	};
 
 	//  handlesubmit
@@ -71,7 +77,6 @@ const App = () => {
 		}
 	}, []);
 
-
 	// Save todos to local storage
 	useEffect(() => {
 		if (todos.length > 0) {
@@ -80,17 +85,24 @@ const App = () => {
 		}
 	}, [todos]);
 
-
 	let remaining = 0;
-    for (let i = 0; i < todos.length; i++) {
-        if (todos[i].completed === false) {
-            remaining = remaining + 1;
-        }
-    }
+	for (let i = 0; i < todos.length; i++) {
+		if (todos[i].completed === false) {
+			remaining = remaining + 1;
+		}
+	}
 
 	return (
 		<div id="todo-list">
 			<h1>Todo List</h1>
+			<div className="search_todo">
+				<input
+					type="text"
+					onChange={handleSearchChange}
+					placeholder="Search task"
+				/>
+			</div>
+
 			<form onSubmit={handlesubmit}>
 				<input
 					type="text"
@@ -100,35 +112,44 @@ const App = () => {
 				/>
 				<button type="submit">Add</button>
 			</form>
-			{todos.map((todo) => (
-				<div className="todo" key={todo.id}>
-					<div className="todo-text">
-						<input
-							type="checkbox"
-							id="completed"
-							checked={todo.completed}
-							onChange={() => toggleComplete(todo.id)}
-						/>
-						{todo.id === todoEditing ? (
-							<input typeof="text" onChange={editingTextChange} />
-						) : (
-							<div>{todo.text}</div>
-						)}
+			<div className="todo-counter">
+				{remaining} remaining out of {todos.length} tasks
+			</div>
+
+			{todos
+				.filter((todo) => {
+					return search.toLowerCase() === ''
+						? todo
+						: todo.text.toLowerCase().includes(search);
+				})
+				.map((todo) => (
+					<div className="todo" key={todo.id}>
+						<div className="todo-text">
+							<input
+								type="checkbox"
+								id="completed"
+								checked={todo.completed}
+								onChange={() => toggleComplete(todo.id)}
+							/>
+							{todo.id === todoEditing ? (
+								<input typeof="text" onChange={editingTextChange} />
+							) : (
+								<div>{todo.text}</div>
+							)}
+						</div>
+						<div className="todo-actions">
+							{todo.id === todoEditing ? (
+								<button onClick={() => submitEdits(todo.id)}>
+									Submit Edits
+								</button>
+							) : (
+								<button onClick={() => setTodoEditing(todo.id)}>Edit</button>
+							)}
+
+							<button onClick={() => deleteTodo(todo.id)}>Delete</button>
+						</div>
 					</div>
-					<div className="todo-actions">
-						{todo.id === todoEditing ? (
-							<button onClick={() => submitEdits(todo.id)}>Submit Edits</button>
-						) : (
-							<button onClick={() => setTodoEditing(todo.id)}>Edit</button>
-						)}
-							<div className="todo-counter">
-                    {remaining} remaining out of {todos.length} tasks
-                </div>
-						<button onClick={() => deleteTodo(todo.id)}>Delete</button>
-					
-					</div>
-				</div>
-			))}
+				))}
 		</div>
 	);
 };
