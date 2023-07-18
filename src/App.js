@@ -90,6 +90,8 @@ const App = () => {
 		if (todos[i].completed === false) {
 			remaining = remaining + 1;
 		}
+		if (todos[i].search !== '') {
+		}
 	}
 
 	return (
@@ -132,21 +134,27 @@ const App = () => {
 								onChange={() => toggleComplete(todo.id)}
 							/>
 							{todo.id === todoEditing ? (
-								<input typeof="text" onChange={editingTextChange} />
+								<input
+									type="text"
+									value={editingText}
+									onChange={editingTextChange}
+								/>
 							) : (
 								<div>{todo.text}</div>
 							)}
 						</div>
 						<div className="todo-actions">
 							{todo.id === todoEditing ? (
-								<button onClick={() => submitEdits(todo.id)}>
-									Submit Edits
-								</button>
+								<>
+									<button onClick={() => submitEdits(todo.id)}>Save</button>
+									<button onClick={() => setTodoEditing(null)}>Cancel</button>
+								</>
 							) : (
-								<button onClick={() => setTodoEditing(todo.id)}>Edit</button>
+								<>
+									<button onClick={() => setTodoEditing(todo.id)}>Edit</button>
+									<button onClick={() => deleteTodo(todo.id)}>Delete</button>
+								</>
 							)}
-
-							<button onClick={() => deleteTodo(todo.id)}>Delete</button>
 						</div>
 					</div>
 				))}
